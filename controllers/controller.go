@@ -5,8 +5,6 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
-
-	"math/rand"
 )
 
 //func Index(c *fiber.Ctx) error {
@@ -21,18 +19,9 @@ import (
 func Index(c *fiber.Ctx) error {
 	var quiz []models.Quizdua
 
-	var count int64
-	if err := models.DB.Db.Model(&models.Quizdua{}).Count(&count).Error; err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to count records"})
-	}
-
-	indices := rand.Perm(int(count))[:2]
-
-	for _, index := range indices {
-		var quizEntry models.Quizdua
-		if err := models.DB.Db.First(&quizEntry, index).Error; err == nil {
-			quiz = append(quiz, quizEntry)
-		}
+	// Fetch 10 random records from the database
+	if err := models.DB.Db.Order("RANDOM()").Limit(10).Find(&quiz).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to fetch records"})
 	}
 
 	return c.Status(fiber.StatusOK).JSON(quiz)
