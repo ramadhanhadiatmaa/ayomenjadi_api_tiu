@@ -1,8 +1,8 @@
 package main
 
 import (
-	"amquizdua/routes"
-	"amquizdua/models"
+	"amtiu/routes"
+	"amtiu/models"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
