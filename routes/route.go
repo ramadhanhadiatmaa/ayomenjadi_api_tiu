@@ -1,8 +1,8 @@
 package routes
 
 import (
-	"amquizdua/controllers"
-	"amquizdua/middlewares"
+	"amtiu/controllers"
+	"amtiu/middlewares"
 
 	"github.com/gofiber/fiber/v2"
 )

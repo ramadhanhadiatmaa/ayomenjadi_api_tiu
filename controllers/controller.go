@@ -1,17 +1,18 @@
 package controllers
 
 import (
-	"amquizdua/models"
+	"amtiu/models"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 )
 
 func Index(c *fiber.Ctx) error {
-
 	var quiz []models.Quizdua
 
-	models.DB.Db.Find(&quiz)
+	if err := models.DB.Db.Order("RANDOM()").Limit(2).Find(&quiz).Error; err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Failed to fetch records"})
+	}
 
 	return c.Status(fiber.StatusOK).JSON(quiz)
 }
